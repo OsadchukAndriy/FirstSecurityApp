@@ -26,8 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //кинфигурируем авторизацию
         http// отключаем защиту от межсайтовой поддклки запросов
                 .authorizeRequests()
+                .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/auth/login", "/error", "/auth/registration").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().hasAnyRole("USER","ADMIN")
                 .and()
                 .formLogin().loginPage("/auth/login")
                 .loginProcessingUrl("/process_login")
