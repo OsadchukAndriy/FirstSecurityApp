@@ -3,6 +3,7 @@ package ru.alishev.springcourse.FirstSecurityApp.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.alishev.springcourse.FirstSecurityApp.services.PersonDetailsService;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PersonDetailsService personDetailsService;
@@ -26,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //кинфигурируем авторизацию
         http// отключаем защиту от межсайтовой поддклки запросов
                 .authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
+//                .antMatchers("/admin").hasRole("ADMIN") // доступ только для админа, без @PreAuthorize
                 .antMatchers("/auth/login", "/error", "/auth/registration").permitAll()
                 .anyRequest().hasAnyRole("USER","ADMIN")
                 .and()
